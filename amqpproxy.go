@@ -32,7 +32,7 @@ type AMQPProxy struct {
 
 // NewAMQP - Create a new Proxy instance. Takes over local connection passed in,
 // and closes it when finished.
-func NewAMQP(lconn *net.TCPConn, laddr, raddr *net.TCPAddr) *AMQPProxy {
+func NewAMQP(lconn io.ReadWriteCloser, laddr, raddr *net.TCPAddr) *AMQPProxy {
 	return &AMQPProxy{
 		lconn:  lconn,
 		laddr:  laddr,
@@ -46,7 +46,7 @@ func NewAMQP(lconn *net.TCPConn, laddr, raddr *net.TCPAddr) *AMQPProxy {
 // NewAMQPTLSUnwrapped - Create a new Proxy instance with a remote TLS server for
 // which we want to unwrap the TLS to be able to connect without encryption
 // locally
-func NewAMQPTLSUnwrapped(lconn *net.TCPConn, laddr, raddr *net.TCPAddr, addr string) *AMQPProxy {
+func NewAMQPTLSUnwrapped(lconn io.ReadWriteCloser, laddr, raddr *net.TCPAddr, addr string) *AMQPProxy {
 	p := NewAMQP(lconn, laddr, raddr)
 	p.tlsUnwrapp = true
 	p.tlsAddress = addr
